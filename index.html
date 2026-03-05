@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>念佛機（Web）</title>
+  <style>
+    body { font-family: Arial, "Noto Sans TC", sans-serif; padding:20px; max-width:600px; margin:auto; }
+    h1 { text-align:center; }
+    .count { font-size:48px; text-align:center; margin:20px 0; }
+    .controls { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+    button, input[type=number], select { padding:8px 12px; font-size:16px; }
+    label { display:block; margin-top:10px; text-align:center; }
+    .status { text-align:center; margin-top:10px; color:green; }
+  </style>
+</head>
+<body>
+  <h1>念佛機（Web）</h1>
+
+  <!-- 將 chant.mp3 放在相同資料夾，或修改 src 指向網路音檔 -->
+  <audio id="chant" src="chant.mp4" preload="auto"></audio>
+
+  <div class="count" id="counter">次數: 0</div>
+
+  <div class="controls">
+    <button id="startBtn">開始</button>
+    <button id="stopBtn">停止</button>
+    <button id="incBtn">+1</button>
+    <button id="decBtn">-1</button>
+    <button id="resetBtn">重設</button>
+  </div>
+
+  <label>
+    每次播放增加:
+    <input id="perPlay" type="number" value="1" min="1" style="width:80px" />
+  </label>
+
+  <label>
+    自動重複播放：
+    <select id="loopSelect">
+      <option value="off">關</option>
+      <option value="on" selected>開</option>
+    </select>
+  </label>
+
+  <label>
+    使用語音 (TTS) 念佛名：
+    <select id="ttsSelect">
+      <option value="off">關</option>
+      <option value="on">開</option>
+    </select>
+  </label>
+
+  <label>
+    念佛文字：
+    <input id="phrase" type="text" value="阿彌陀佛3 阿彌陀佛3  阿彌陀佛4 （五會十念法）" style="width:60%" />
+  </label>
+
+  <label>
+    每次 TTS 念幾句：
+    <input id="ttsCount" type="number" value="1" min="1" style="width:80px" />
+  </label>
+
+  <div class="status" id="status">準備中</div>
+
+  <script>
+    const chant = document.getElementById('chant');
+    const counterEl = document.getElementById('counter');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const incBtn = document.getElementById('incBtn');
+    const decBtn = document.getElementById('decBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const perPlay = document.getElementById('perPlay');
+    const loopSelect = document.getElementById('loopSelect');
+    const ttsSelect = document.getElementById('ttsSelect');
+    const phrase = document.getElementById('phrase');
+    const ttsCount = document.getElementById('ttsCount');
+    const status = document.getElementById('status');
+
+    let count = 0;
+    let playing = false;
+
+    function render() {
+      counterEl.textContent = `次數: ${count}`;
+    }
+
+    function startPlayback() {
+      if (!chant.src) {
+        status.textContent = '未找到 chant.mp3，請放入同一資料夾或修改 audio src。';
+        status.style.color = 'red';
+        return;
+      }
+      playing = true;
+      status.textContent = '播放中';
+      status.style.color = 'green';
+      // 如果 TTS 開啟，念一次或多次文字（可選）
+      if (ttsSelect.value === 'on') {
+        speakPhrase(parseInt(ttsCount.value) || 1);
+      }
+      chant.play().catch(e => {
+        // 自動播放可能被瀏覽器阻擋，提示使用者互動
+        status.textContent = '瀏覽器可能阻擋自動播放，請按任一按鈕以授權播放';
+        status.style.color = 'orange';
+      });
+    }
+
+    function stopPlayback() {
+      playing = false;
+      chant.pause();
+      chant.currentTime = 0;
+      status.textContent = '已停止';
+      status.style.color = 'gray';
+    }
+
+    chant.addEventListener('ended', () => {
+      // 每次音檔結束時增加次數
+      const add = parseInt(perPlay.value) || 1;
+      count += add;
+      render();
+      if (loopSelect.value === 'on' && playing) {
+        // 如果 TTS 開啟在每次結束也念，可在這裡加入
+        if (ttsSelect.value === 'on') {
+          speakPhrase(parseInt(ttsCount.value) || 1);
+        }
+        // 重播
+        chant.currentTime = 0;
+        chant.play().catch(e => {
+          status.textContent = '播放錯誤: ' + e;
+          status.style.color = 'red';
+        });
+      } else {
+        playing = false;
+        status.textContent = '播放結束';
+        status.style.color = 'gray';
+      }
+    });
+
+    function speakPhrase(times) {
+      if (!('speechSynthesis' in window)) return;
+      const synth = window.speechSynthesis;
+      for (let i = 0; i < times; i++) {
+        const u = new SpeechSynthesisUtterance(phrase.value || '南無阿彌陀佛');
+        // 可調語言與語速
+        u.lang = 'zh-TW';
+        u.rate = 0.9;
+        synth.speak(u);
+      }
+    }
+
+    startBtn.addEventListener('click', () => {
+      startPlayback();
+    });
+    stopBtn.addEventListener('click', () => {
+      stopPlayback();
+    });
+    incBtn.addEventListener('click', () => { count += 1; render(); });
+    decBtn.addEventListener('click', () => { if (count>0) count -= 1; render(); });
+    resetBtn.addEventListener('click', () => { count = 0; render(); });
+
+    // 初始化顯示
+    render();
+    status.textContent = '準備就緒，請放 chant.mp3 並按「開始」';
+    status.style.color = 'black';
+  </script>
+</body>
+</html>
