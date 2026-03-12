@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吾會念佛 - 心情日誌與學習工具箱</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #5d4037;
+            --accent-color: #8d6e63;
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 導航列 */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background: var(--accent-color);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        nav button:hover, nav button.active {
+            background: rgba(255,255,255,0.2);
+            font-weight: bold;
+        }
+
+        /* 內容區塊 */
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 15px;
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--accent-color);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Noto Serif TC', serif;
+            color: var(--primary-color);
+        }
+
+        /* 念佛機與廣播劇專用樣式 */
+        .control-panel {
+            background: #fdf6e3;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px dashed #d3af37;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .btn-start { background-color: #4caf50; color: white; }
+        .btn-stop { background-color: #f44336; color: white; }
+        .btn-action { background-color: #2196f3; color: white; }
+
+        /* SVG 容器預設大小 */
+        #svg-container {
+            width: 100%;
+            height: auto;
+            min-height: 400px;
+            background: #fff;
+            border: 1px solid #eee;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>吾會念佛 心情日誌</h1>
+    <p>紀錄點滴、體悟佛法與現代生活的融合</p>
+</header>
+
+<nav id="main-nav">
+    <button onclick="showSection('diary')" class="active">心情日誌</button>
+    <button onclick="showSection('huayan')">華嚴法界圓明</button>
+    <button onclick="showSection('drama')">從容錄廣播劇</button>
+    <button onclick="showSection('nianfo')">五會念佛機</button>
+</nav>
+
+<div class="container">
+    
+    <section id="diary" class="section active">
+        <div class="card">
+            <small>2026年3月15日 (星期日)</small>
+            <h2>離開當下的當下 學習紀錄</h2>
+            <p>在這裡記錄今天的感悟與修持進度...</p>
+        </div>
+        <div class="card">
+            <small>2026年3月12日 (星期四)</small>
+            <h2>耶律楚材與行政管理</h2>
+            <p>探討古代賢臣的處事智慧對現代行政的啟發。</p>
+        </div>
+    </section>
+
+    <section id="huayan" class="section">
+        <div class="card">
+            <h2>華嚴-妄盡還源觀 (法界圓明)</h2>
+            <div id="svg-container">
+                <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="200" cy="200" r="150" fill="none" stroke="#8d6e63" stroke-width="2" />
+                    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="serif">法界圓明圖</text>
+                </svg>
+            </div>
+            <div style="margin-top:15px; text-align:center;">
+                <button class="btn btn-action">＋ 新增一圈層級</button>
+                <button class="btn btn-action">重繪法界圖相</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="drama" class="section">
+        <div class="card">
+            <h2>從容錄 E世代廣播劇</h2>
+            <div class="control-panel">
+                <div id="drama-counter" style="font-size: 2rem; margin: 10px;">0</div>
+                <button class="btn btn-start" onclick="startDrama()">開始廣播劇</button>
+                <button class="btn btn-stop" onclick="stopDrama()">停止</button>
+                <button class="btn btn-action" onclick="resetDrama()">重設</button>
+            </div>
+            <div style="margin-top:20px; background:#f9f9f9; padding:15px; border-radius:5px;">
+                <p><strong>廣播內容：</strong> 一段真風見也麼。綿綿化母理機梭。織成古錦含春象。無柰東君漏泄何。</p>
+                <blockquote style="border-left: 3px solid #ccc; padding-left: 10px; font-style: italic;">
+                    萬松：（低沉且有磁性的聲音）各位同學，從從容容、遊刃有餘...
+                </blockquote>
+            </div>
+        </div>
+    </section>
+
+    <section id="nianfo" class="section">
+        <div class="card">
+            <h2>五會念佛 十念法</h2>
+            <div class="control-panel">
+                <div id="nianfo-count" style="font-size: 2.5rem; color: #d32f2f;">0</div>
+                <p>念佛文字：南無阿彌陀佛</p>
+                <button class="btn btn-start" onclick="startNianfo()">開始</button>
+                <button class="btn btn-stop" onclick="stopNianfo()">停止</button>
+                <button class="btn btn-action" onclick="changeCount(1)">+1</button>
+                <button class="btn btn-action" onclick="changeCount(-1)">-1</button>
+            </div>
+            <div style="margin-top:15px;">
+                <label><input type="checkbox" id="auto-repeat"> 自動重複播放</label><br>
+                <label><input type="checkbox" id="use-tts" checked> 使用語音 (TTS)</label>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <p>© 2026 吾會念佛 心情日誌 | 版權所有</p>
+</footer>
+
+<script>
+    // 導航切換邏輯
+    function showSection(sectionId) {
+        document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+        document.querySelectorAll('#main-nav button').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(sectionId).classList.add('active');
+        event.currentTarget.classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    // --- 廣播劇 Logic ---
+    let dramaTimer;
+    let dramaCount = 0;
+    function startDrama() {
+        if(!dramaTimer) {
+            dramaTimer = setInterval(() => {
+                dramaCount++;
+                document.getElementById('drama-counter').innerText = dramaCount;
+            }, 1000);
+            speak("一段真風見也麼。綿綿化母理機梭。");
+        }
+    }
+    function stopDrama() {
+        clearInterval(dramaTimer);
+        dramaTimer = null;
+        speechSynthesis.cancel();
+    }
+    function resetDrama() {
+        stopDrama();
+        dramaCount = 0;
+        document.getElementById('drama-counter').innerText = 0;
+    }
+
+    // --- 念佛機 Logic ---
+    let nianfoCount = 0;
+    function changeCount(val) {
+        nianfoCount = Math.max(0, nianfoCount + val);
+        document.getElementById('nianfo-count').innerText = nianfoCount;
+    }
+    function startNianfo() {
+        if(document.getElementById('use-tts').checked) {
+            speak("南無阿彌陀佛");
+        }
+        changeCount(1);
+    }
+    function stopNianfo() {
+        speechSynthesis.cancel();
+    }
+
+    // --- 通用語音功能 ---
+    function speak(text) {
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = 'zh-TW';
+        msg.rate = 0.8;
+        speechSynthesis.speak(msg);
+    }
+</script>
+
+</body>
+</html>
