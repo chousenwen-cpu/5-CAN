@@ -144,8 +144,261 @@
             <div class="entry-meta">2026年3月10日 (星期二)</div>
             <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
             <div class="entry-content">
-                。
+                從容錄 E世代廣播劇
             </div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>從容錄 E世代廣播劇</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8b4513;
+            --bg-color: #f7f3ee;
+            --paper-white: #ffffff;
+            --text-dark: #2c3e50;
+            --text-gray: #7f8c8d;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            font-family: 'Noto Serif TC', serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 錄音室情境容器 */
+        .studio-container {
+            max-width: 850px;
+            width: 100%;
+            background: var(--paper-white);
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #e0dcd5;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .studio-header {
+            text-align: center;
+            border-bottom: 1px double var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 2em;
+            letter-spacing: 4px;
+        }
+
+        /* 計數器區塊 */
+        .counter-box {
+            background: #fdfaf6;
+            border: 1px solid #eee;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .count-display {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .controls button {
+            font-family: 'Noto Serif TC', serif;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: 0.3s;
+        }
+
+        button:hover { background: #a0522d; }
+        button.stop { background: #7f8c8d; }
+
+        /* 公案內容區 */
+        .gong-an {
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+        }
+
+        .role-name {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        .commentary {
+            color: var(--text-gray);
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .song-verse {
+            font-size: 1.4em;
+            text-align: center;
+            margin: 40px 0;
+            color: #1a1a1a;
+            letter-spacing: 3px;
+            border-left: 3px solid var(--primary-color);
+            border-right: 3px solid var(--primary-color);
+            padding: 0 20px;
+        }
+
+        /* 背景音樂控制按鈕 */
+        .audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.8);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .input-group {
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+
+        textarea {
+            width: 100%;
+            font-family: 'Noto Serif TC', serif;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="studio-container">
+    <div class="studio-header">
+        <h1>從容錄 E世代廣播劇</h1>
+        <p>萬松禪師 ＆ 耶律楚材 ＆ 天童禪師</p>
+    </div>
+
+    <div class="counter-box">
+        <div class="count-display" id="count">0</div>
+        <div class="controls">
+            <button onclick="startLoop()">開始念佛</button>
+            <button class="stop" onclick="stopLoop()">停止</button>
+            <button onclick="changeCount(1)">+1</button>
+            <button onclick="resetCount()">重設</button>
+        </div>
+
+        <div class="input-group">
+            <label>念佛文字（TTS內容）：</label><br>
+            <textarea id="tts-text" rows="3">一段真風見也麼。綿綿化母理機梭。織成古錦含春象。無柰東君漏泄何。</textarea>
+        </div>
+    </div>
+
+    <div class="gong-an">
+        <p class="commentary">【場景：一間充滿禪意的廣播錄音室，背景有淡淡的流水聲與煮水的沸騰聲。】</p>
+        
+        <p><span class="role-name">萬松：</span>（低沉且有磁性的聲音）各位同學，在匆匆忙忙的現代生活裡，你是否也學學元朝耶律楚材（湛然居士），從從容容、遊刃有餘？歡迎跟我一起來學習《從容錄》。</p>
+
+        <p><span class="role-name">第一則：世尊陞座</span></p>
+        <p><strong>【舉】</strong>世尊一日陞座<span class="commentary">(今日不著便)</span>。文殊白槌云：諦觀法王法。法王法如是<span class="commentary">(知佗是何心行)</span>。世尊便下座<span class="commentary">(別日再商量)</span>。</p>
+
+        <p><span class="role-name">萬松評唱：</span>諸人未到法堂，萬松未出方丈，向那時薦得，已是落三落四了也……且救得一半，那一半分付天童。</p>
+
+        <div class="song-verse">
+            一段真風見也麼<br>
+            綿綿化母理機梭<br>
+            織成古錦含春象<br>
+            無柰東君漏泄何
+        </div>
+
+        <p style="text-align: right; font-size: 0.8em; color: var(--text-gray);">—— 慇懃為解丁香結，放出枝頭自在春。</p>
+    </div>
+</div>
+
+<div class="audio-control">
+    <button onclick="toggleMusic()" id="music-btn">🎵 播放禪樂</button>
+</div>
+
+<audio id="bg-music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    let count = 0;
+    let isPlaying = false;
+    let ttsInterval;
+
+    const countDisplay = document.getElementById('count');
+    const ttsText = document.getElementById('tts-text');
+    const bgMusic = document.getElementById('bg-music');
+
+    function changeCount(val) {
+        count += val;
+        countDisplay.innerText = count;
+    }
+
+    function resetCount() {
+        count = 0;
+        countDisplay.innerText = count;
+    }
+
+    function toggleMusic() {
+        if (bgMusic.paused) {
+            bgMusic.play();
+            document.getElementById('music-btn').innerText = "⏸ 暫停音樂";
+        } else {
+            bgMusic.pause();
+            document.getElementById('music-btn').innerText = "🎵 播放禪樂";
+        }
+    }
+
+    function speak() {
+        const text = ttsText.value;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-TW';
+        utterance.rate = 0.8; // 設定較慢的語速，增加從容感
+        utterance.pitch = 0.9; // 降低一點音調，模仿磁性聲音
+        
+        utterance.onend = () => {
+            if (isPlaying) {
+                changeCount(1);
+                setTimeout(speak, 1000); // 停頓一秒後繼續下一遍
+            }
+        };
+        
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function startLoop() {
+        if (isPlaying) return;
+        isPlaying = true;
+        // 第一次啟動時，也自動播放背景音樂（模擬錄音室開始）
+        if (bgMusic.paused) toggleMusic();
+        speak();
+    }
+
+    function stopLoop() {
+        isPlaying = false;
+        window.speechSynthesis.cancel();
+    }
+</script>
+
+</body>
+</html>
+            
         </article>
         
         <article class="diary-entry" data-day="1">
@@ -319,6 +572,7 @@
   </script>
 </body>
 </html>
+            
         </article>
 
     </div>
