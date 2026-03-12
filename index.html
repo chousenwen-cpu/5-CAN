@@ -129,6 +129,194 @@
             <div class="entry-content">
                 。
             </div>
+            <html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>華嚴-妄盡還源觀（法界圓明-精確對應版）</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", sans-serif; display: flex; flex-direction: row; margin: 20px; background: #2c2c2c; color: #e0e0e0; }
+        #controls { width: 420px; padding: 20px; background: #3d3d3d; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); overflow-y: auto; max-height: 95vh; border: 1px solid #555; }
+        #canvas-container { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #1a1a1a; margin-left: 20px; border-radius: 8px; position: relative; overflow: auto; }
+        svg { background: #1a1a1a; border-radius: 50%; box-shadow: 0 0 50px rgba(255, 102, 0, 0.2); flex-shrink: 0; }
+        .layer-block { border-bottom: 2px solid #5d2e0a; padding: 15px 0; background: #4a4a4a; margin-bottom: 10px; padding-left: 10px; border-radius: 4px; }
+        label { font-size: 13px; font-weight: bold; color: #ffcc00; display: block; margin-top: 8px; }
+        input, textarea { width: 95%; margin-top: 5px; box-sizing: border-box; padding: 5px; border: 1px solid #666; background: #2c2c2c; color: #fff; border-radius: 3px; }
+        button { margin-top: 10px; cursor: pointer; padding: 10px; width: 100%; font-weight: bold; border-radius: 4px; border: none; transition: 0.3s; }
+        button:hover { opacity: 0.8; }
+        .tooltip { position: fixed; background: rgba(30, 15, 0, 0.95); color: #fff; padding: 15px; border-radius: 8px; pointer-events: none; display: none; font-size: 14px; max-width: 350px; z-index: 1000; line-height: 1.6; border: 1px solid #ffcc00; box-shadow: 0 0 20px rgba(0,0,0,0.6); }
+        h2 { color: #ffcc00; border-left: 5px solid #ff6600; padding-left: 10px; font-size: 1.2em; }
+        .hint { font-size: 11px; color: #bbb; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div id="controls">
+    <h2>華嚴-妄盡還源觀 (法界圓明)</h2>
+    <div id="layers-config"></div>
+    <button onclick="addLayer()" style="background-color: #5d2e0a; color: white;">＋ 新增一圈層級</button>
+    <button onclick="renderCompass()" style="background-color: #e65100; color: white; margin-top: 20px; font-size: 1.1em;">重繪法界圖相</button>
+</div>
+
+<div id="canvas-container">
+    <div class="tooltip" id="tooltip"></div>
+    <svg id="compass" width="900" height="900" viewBox="0 0 900 900"></svg>
+</div>
+
+<script>
+    // 資料結構優化：content 與 note 均支援逗號分隔
+    let layers = [
+        { count: 1, content: "體-法界圓明體", note: "自性清淨圓明，體無增減。" },
+        { count: 2, content: "海印森羅,法界圓明", note: "海印森羅：妄盡心澄，萬象齊現。,法界圓明：理智不二，照體獨立。" }, 
+        { count: 3, content: "普周法界遍,出生無盡遍,含容空有遍", note: "一塵現大海,一念生萬法,心包太虛" },
+        { count: 4, content: "隨緣妙用德,威儀住持德,柔和質直德,普代眾生德", note: "隨機赴感,規範世間,心平氣直,悲願廣大" },
+        { count: 5, content: "照法清虛止,觀人寂帕止,性起繁興止,定光顯現止,事理玄通止", note: "離緣止,絕欲止,法爾止,無念止,非相止" },
+        { count: 6, content: "真空觀,妙有觀,圓融觀,眾緣觀,鏡像觀,帝網觀", note: "攝境歸心,從心現境,隱顯對待,智身影現,多身入一,主伴互現" }
+    ];
+
+    function addLayer() {
+        layers.push({ count: 8, content: "新格1,新格2", note: "備註1,備註2" });
+        updateUI();
+    }
+
+    function updateUI() {
+        const container = document.getElementById('layers-config');
+        container.innerHTML = '';
+        layers.forEach((layer, idx) => {
+            container.innerHTML += `
+                <div class="layer-block">
+                    <label>第 ${idx + 1} 層 - 格數:</label>
+                    <input type="number" value="${layer.count}" onchange="layers[${idx}].count=this.value">
+                    <label>內容 <span class="hint">(逗號分隔)</span>:</label>
+                    <textarea rows="2" onchange="layers[${idx}].content=this.value">${layer.content}</textarea>
+                    <label>各格備註 <span class="hint">(逗號分隔，對應各格)</span>:</label>
+                    <textarea rows="2" onchange="layers[${idx}].note=this.value">${layer.note}</textarea>
+                </div>`;
+        });
+    }
+
+    function renderCompass() {
+        const svg = document.getElementById('compass');
+        svg.innerHTML = ''; 
+        const cx = 450, cy = 450, baseRadius = 60;
+        const layerWidth = 85; 
+
+        const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        defs.innerHTML = `
+            <radialGradient id="sunsetGradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" style="stop-color:#fffce6" />
+                <stop offset="40%" style="stop-color:#ffeb3b" />
+                <stop offset="80%" style="stop-color:#ff5722" />
+                <stop offset="100%" style="stop-color:#bf360c" />
+            </radialGradient>
+            <filter id="glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        `;
+        svg.appendChild(defs);
+
+        // 中心圓 (第一層的「體」)
+        const centerG = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        const centerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        centerCircle.setAttribute("cx", cx);
+        centerCircle.setAttribute("cy", cy);
+        centerCircle.setAttribute("r", baseRadius);
+        centerCircle.setAttribute("fill", "url(#sunsetGradient)");
+        centerCircle.setAttribute("filter", "url(#glow)");
+        centerCircle.setAttribute("stroke", "#ffcc00");
+        centerCircle.setAttribute("stroke-width", "2");
+        
+        // 第一層 Tooltip 處理
+        const firstLayerNote = layers[0].note.split(',')[0]; 
+        centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `<b>${layers[0].content.split(',')[0]}</b><hr>${firstLayerNote}`));
+        centerCircle.addEventListener('mouseout', hideTooltip);
+        
+        centerG.appendChild(centerCircle);
+        svg.appendChild(centerG);
+
+        const duskColors = [
+            ["#4a3a3a", "#3d2f2f"], ["#3d314a", "#33293d"], ["#2e2e3e", "#252533"], ["#252525", "#1c1c1c"]
+        ];
+
+        // 從第二層開始繪製 (索引 1 開始)
+        layers.slice(1).forEach((layer, sIdx) => {
+            const lIdx = sIdx + 1; // 還原真實層級索引
+            const innerR = baseRadius + (sIdx * layerWidth);
+            const outerR = innerR + layerWidth;
+            
+            const items = layer.content.split(',');
+            const notes = layer.note.split(','); // 切分備註
+            
+            const count = parseInt(layer.count);
+            const angleStep = 360 / count;
+            const colorSet = duskColors[Math.min(sIdx, duskColors.length - 1)];
+
+            for (let i = 0; i < count; i++) {
+                const startAngle = i * angleStep - 90;
+                const endAngle = (i + 1) * angleStep - 90;
+                const pathData = describeArc(cx, cy, innerR, outerR, startAngle, endAngle);
+                
+                const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                
+                path.setAttribute("d", pathData);
+                path.setAttribute("fill", i % 2 === 0 ? colorSet[0] : colorSet[1]);
+                path.setAttribute("stroke", "#555");
+                path.setAttribute("stroke-width", "0.5");
+
+                // --- 核心邏輯：動態抓取該格的備註 ---
+                const itemText = items[i] ? items[i].trim() : (items[0] || "未定義");
+                // 如果該序號沒有對應備註，就抓該層第一個備註
+                const itemNote = notes[i] ? notes[i].trim() : (notes[0] || "無備註");
+
+                path.addEventListener('mouseover', () => path.setAttribute("fill", "#6d4c41"));
+                path.addEventListener('mouseout', () => path.setAttribute("fill", i % 2 === 0 ? colorSet[0] : colorSet[1]));
+                path.addEventListener('mousemove', (e) => showTooltip(e, `<b>${itemText}</b><hr>${itemNote}`));
+                path.addEventListener('mouseout', hideTooltip);
+
+                // 文字繪製 (略微簡化確保性能)
+                const textAngle = startAngle + (angleStep / 2);
+                const textR = innerR + (layerWidth / 2);
+                const tx = cx + textR * Math.cos(textAngle * Math.PI / 180);
+                const ty = cy + textR * Math.sin(textAngle * Math.PI / 180);
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", tx); text.setAttribute("y", ty);
+                text.setAttribute("text-anchor", "middle"); text.setAttribute("dominant-baseline", "middle");
+                text.setAttribute("fill", "#ffd54f");
+                let fs = itemText.length > 8 ? 10 : 13;
+                text.setAttribute("font-size", `${fs}px`);
+                let rot = textAngle + 90;
+                if (rot > 90 && rot < 270) rot -= 180;
+                text.setAttribute("transform", `rotate(${rot}, ${tx}, ${ty})`);
+                text.textContent = itemText;
+
+                g.appendChild(path); g.appendChild(text); svg.appendChild(g);
+            }
+        });
+    }
+
+    function describeArc(x, y, innerR, outerR, startAngle, endAngle) {
+        const startRad = startAngle * Math.PI / 180;
+        const endRad = endAngle * Math.PI / 180;
+        const x1 = x + innerR * Math.cos(startRad), y1 = y + innerR * Math.sin(startRad);
+        const x2 = x + outerR * Math.cos(startRad), y2 = y + outerR * Math.sin(startRad);
+        const x3 = x + outerR * Math.cos(endRad),   y3 = y + outerR * Math.sin(endRad);
+        const x4 = x + innerR * Math.cos(endRad),   y4 = y + innerR * Math.sin(endRad);
+        const largeArc = endAngle - startAngle <= 180 ? "0" : "1";
+        return `M ${x1} ${y1} L ${x2} ${y2} A ${outerR} ${outerR} 0 ${largeArc} 1 ${x3} ${y3} L ${x4} ${y4} A ${innerR} ${innerR} 0 ${largeArc} 0 ${x1} ${y1} Z`;
+    }
+
+    function showTooltip(evt, text) {
+        const tooltip = document.getElementById('tooltip');
+        tooltip.style.display = 'block';
+        tooltip.innerHTML = text;
+        tooltip.style.left = (evt.clientX + 20) + 'px';
+        tooltip.style.top = (evt.clientY + 20) + 'px';
+    }
+    function hideTooltip() { document.getElementById('tooltip').style.display = 'none'; }
+
+    updateUI();
+    renderCompass();
+</script>
+</body>
+</html>
         </article>
 
         <article class="diary-entry" data-day="3">
