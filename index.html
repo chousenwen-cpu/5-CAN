@@ -384,6 +384,7 @@ canvas, svg, iframe {
                 華嚴-妄盡還源觀（法界圓明-精確對應版）
             </div>
             <html lang="zh-TW">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <title>華嚴-妄盡還源觀（法界圓明-精確對應版）</title>
@@ -396,7 +397,7 @@ canvas, svg, iframe {
         label { font-size: 13px; font-weight: bold; color: #ffcc00; display: block; margin-top: 8px; }
         input, textarea { width: 95%; margin-top: 5px; box-sizing: border-box; padding: 5px; border: 1px solid #666; background: #2c2c2c; color: #fff; border-radius: 3px; }
         button { margin-top: 10px; cursor: pointer; padding: 10px; width: 100%; font-weight: bold; border-radius: 4px; border: none; transition: 0.3s; }
-        button:hover { opacity: 0.8;min-height: 44px; padding: 10px 15px;margin: 5px; }
+        button:hover { opacity: 0.8; }
         .tooltip { position: fixed; background: rgba(30, 15, 0, 0.95); color: #fff; padding: 15px; border-radius: 8px; pointer-events: none; display: none; font-size: 14px; max-width: 350px; z-index: 1000; line-height: 1.6; border: 1px solid #ffcc00; box-shadow: 0 0 20px rgba(0,0,0,0.6); }
         h2 { color: #ffcc00; border-left: 5px solid #ff6600; padding-left: 10px; font-size: 1.2em; }
         .hint { font-size: 11px; color: #bbb; font-style: italic; }
@@ -417,17 +418,6 @@ canvas, svg, iframe {
 </div>
 
 <script>
-
-/* 加入這段確保區塊獨立 */
-.diary-item {
-    border: 1px solid #ddd;
-    margin: 20px 10px;
-    padding: 15px;
-    border-radius: 8px;
-    background: #fff;
-    clear: both; /* 防止浮動元素干擾 */
-}
-    
     // 資料結構優化：content 與 note 均支援逗號分隔
     let layers = [
         { count: 1, content: "體-法界圓明體", note: "自性清淨圓明，體無增減。" },
@@ -580,6 +570,17 @@ canvas, svg, iframe {
     updateUI();
     renderCompass();
 </script>
+
+/* 加入這段確保區塊獨立 */
+.diary-item {
+    border: 1px solid #ddd;
+    margin: 20px 10px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fff;
+    clear: both; /* 防止浮動元素干擾 */
+}
+    
 </body>
 </html>
             </div>
