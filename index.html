@@ -385,6 +385,11 @@ canvas, svg, iframe {
     <article class="diary-entry" data-day="4">
             <div class="entry-meta">2026年3月12日 (星期四)</div>
             <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
+        <svg viewBox="0 0 400 400" width="300">
+        <circle cx="200" cy="200" r="150" fill="none" stroke="#d3af37" stroke-width="2" />
+        <circle cx="200" cy="200" r="100" fill="none" stroke="#8d6e63" stroke-dasharray="5" />
+        <text x="200" y="208" text-anchor="middle" font-size="22" fill="#5d4037">法界圓明</text>
+    </svg>
             <div class="entry-content">
                 華嚴-妄盡還源觀（法界圓明-精確對應版）
             </div>
@@ -604,9 +609,13 @@ canvas, svg, iframe {
    <article class="diary-entry" data-day="2">
             <div class="entry-meta">2026年3月10日 (星期二)</div>
             <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
-            <div class="entry-content">
-                從容錄 E世代廣播劇
-            </div>
+           <div id="drama-content" class="script-box">
+        萬松禪師：「各位同學，在匆匆忙忙的現代生活裡，你是否也學習元朝耶律楚材，從從容容、遊刃有餘？」
+    </div>
+    <div style="text-align: center; margin-top: 15px;">
+        <button onclick="handleDrama()">播放內容</button>
+        <button onclick="handleStop()" style="background-color: #e53935;">停止</button>
+    </div>
 
 <html lang="zh-TW">
 <head>
@@ -866,9 +875,10 @@ canvas, svg, iframe {
     <article class="diary-entry" data-day="1">
             <div class="entry-meta">2026年3月9日 (星期一)</div>
             <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
-            <div class="entry-content">
-                五會念佛 十念法
-            </div>
+            <div style="text-align: center;">
+        <button onclick="handleNianfo()">念佛 (語音)</button>
+        <button onclick="handleReset()" style="background-color: #999;">重設</button>
+    </div>
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
