@@ -804,7 +804,7 @@ canvas, svg, iframe {
 </div>
 
 <audio id="bg-music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <source src="1.fong.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -876,8 +876,6 @@ canvas, svg, iframe {
             <div class="entry-meta">2026年3月9日 (星期一)</div>
             <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
             <div style="text-align: center;">
-        <button onclick="handleNianfo()">念佛 (語音)</button>
-        <button onclick="handleReset()" style="background-color: #999;">重設</button>
     </div>
 <html lang="zh-Hant">
 <head>
@@ -1053,19 +1051,6 @@ canvas, svg, iframe {
 </footer>
 
 <script>
-    // --- 1. 念佛機邏輯 ---
-    let nianfoCount = 0;
-    function nianfo(val) {
-        nianfoCount += val;
-        document.getElementById('count-display').innerText = nianfoCount;
-        if(document.getElementById('tts-toggle').checked) {
-            speak("南無阿彌陀佛");
-        }
-    }
-    function resetCount() {
-        nianfoCount = 0;
-        document.getElementById('count-display').innerText = 0;
-    }
 
     // --- 2. 華嚴圖邏輯 ---
     let layers = 0;
