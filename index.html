@@ -714,19 +714,16 @@ canvas, svg, iframe {
     }
 
     
-    function startLoop() {
-        window.speechSynthesis.cancel();
-        if (isPlaying) return;
-        isPlaying = true;
-        // 第一次啟動時，也自動播放背景音樂（模擬錄音室開始）
-        if (bgMusic.paused) toggleMusic();
-        speak();
+// 修正後的廣播劇功能
+function startDrama() {
+    window.speechSynthesis.cancel();
+    let dramaContent = document.querySelector('.drama-content')?.innerText;
+    if(dramaContent) {
+        let msg = new SpeechSynthesisUtterance(dramaContent);
+        msg.lang = 'zh-TW';
+        window.speechSynthesis.speak(msg);
     }
-
-    function stopLoop() {
-        isPlaying = false;
-        window.speechSynthesis.cancel();
-    }
+}
 </script>
 
 </body>
@@ -825,13 +822,19 @@ canvas, svg, iframe {
       counterEl.textContent = `次數: ${count}`;
     }
 
-    function startPlayback() {
-        window.speechSynthesis.cancel();
-      if (!chant.src) {
-        status.textContent = '未找到 chant.mp3，請放入同一資料夾或修改 audio src。';
-        status.style.color = 'red';
-        return;
-      }
+ // 修正後的念佛功能
+function startNianfo() {
+    window.speechSynthesis.cancel(); // 1. 先停止之前的聲音
+    let text = document.getElementById('nianfoText')?.innerText || "南無阿彌陀佛";
+    let msg = new SpeechSynthesisUtterance(text);
+    msg.lang = 'zh-TW';
+    window.speechSynthesis.speak(msg); // 2. 播放新聲音
+    
+    // 更新計數 (確保 id 正確)
+    let countEl = document.getElementById('count');
+    if(countEl) countEl.innerText = parseInt(countEl.innerText) + 1;
+}
+        
       playing = true;
       status.textContent = '播放中';
       status.style.color = 'green';
