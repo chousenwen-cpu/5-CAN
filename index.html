@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吾會念佛 - 每日修持日誌</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-brown: #5d4037;
+            --accent-gold: #d3af37;
+            --bg-gray: #f8f9fa;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-gray);
+            color: #333;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-brown), #3e2723);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* 日誌卡片樣式 */
+        .diary-entry {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 50px;
+            box-shadow: var(--card-shadow);
+            border-top: 6px solid var(--accent-gold);
+            position: relative;
+        }
+
+        .date-tag {
+            display: inline-block;
+            background: var(--primary-brown);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-family: 'Noto Serif TC', serif;
+            margin-top: 0;
+            color: var(--primary-brown);
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
+
+        /* 功能區域內部樣式 */
+        .app-container {
+            background: #fffaf0;
+            border: 1px solid #f0e6d2;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-main { background: var(--primary-brown); color: white; }
+        .btn-main:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-outline { background: white; border: 1px solid var(--primary-brown); color: var(--primary-brown); }
+
+        .display-screen {
+            font-size: 2.5rem;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Courier New', Courier, monospace;
+            color: #d32f2f;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        /* SVG 圖形自適應 */
+        svg {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            background: white;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>吾會念佛 心情日誌</h1>
+    <p>修行於當下，紀錄日日點滴</p>
+</header>
+
+<div class="container">
+
+    <article class="diary-entry">
+        <span class="date-tag">2026年3月15日</span>
+        <h2>離開當下的當下 - 五會念佛修持</h2>
+        <p>今日練習「十念法」，透過數位計數器輔助，心念更為集中。</p>
+        
+        <div class="app-container">
+            <div id="count-display" class="display-screen">0</div>
+            <div class="btn-group">
+                <button class="btn-main" onclick="nianfo(1)">念佛 (TTS)</button>
+                <button class="btn-outline" onclick="resetCount()">重設次數</button>
+            </div>
+            <div style="text-align: center; font-size: 0.9rem; color: #666;">
+                <label><input type="checkbox" id="tts-toggle" checked> 開啟語音引導</label>
+            </div>
+        </div>
+    </article>
+
+    <article class="diary-entry">
+        <span class="date-tag">2026年3月13日</span>
+        <h2>華嚴-妄盡還源觀 (法界圓明圖)</h2>
+        <p>今日觀察法界圖相，體悟圓明之理。調整了圖層的視覺呈現。</p>
+        
+        <div class="app-container">
+            <div id="huayan-svg">
+                <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="200" cy="200" r="180" fill="none" stroke="#d3af37" stroke-width="1" />
+                    <circle cx="200" cy="200" r="120" fill="none" stroke="#d3af37" stroke-dasharray="5,5" />
+                    <text x="200" y="200" text-anchor="middle" dominant-baseline="middle" font-family="serif" font-size="24" fill="#5d4037">法界圓明</text>
+                    <g id="dynamic-layers"></g>
+                </svg>
+            </div>
+            <div class="btn-group">
+                <button class="btn-main" onclick="addLayer()">新增觀察層級</button>
+                <button class="btn-outline" onclick="clearLayers()">還原圖相</button>
+            </div>
+        </div>
+    </article>
+
+    <article class="diary-entry">
+        <span class="date-tag">2026年3月10日</span>
+        <h2>從容錄 E世代廣播劇：耶律楚材</h2>
+        <p>萬松禪師與湛然居士的對話，在忙碌的現代更顯珍貴。</p>
+        
+        <div class="app-container">
+            <div id="drama-text" style="padding:15px; background:white; border-radius:8px; min-height:80px; margin-bottom:10px; font-size:0.95rem;">
+                點擊播放開始廣播劇內容...
+            </div>
+            <div class="btn-group">
+                <button class="btn-main" onclick="playDrama()">播放廣播劇</button>
+                <button class="btn-outline" onclick="stopDrama()">停止播放</button>
+            </div>
+        </div>
+    </article>
+
+</div>
+
+<footer>
+    <p>© 2026 吾會念佛 版權所有</p>
+</footer>
+
+<script>
+    // --- 1. 念佛機邏輯 ---
+    let nianfoCount = 0;
+    function nianfo(val) {
+        nianfoCount += val;
+        document.getElementById('count-display').innerText = nianfoCount;
+        if(document.getElementById('tts-toggle').checked) {
+            speak("南無阿彌陀佛");
+        }
+    }
+    function resetCount() {
+        nianfoCount = 0;
+        document.getElementById('count-display').innerText = 0;
+    }
+
+    // --- 2. 華嚴圖邏輯 ---
+    let layers = 0;
+    function addLayer() {
+        if(layers < 5) {
+            layers++;
+            const g = document.getElementById('dynamic-layers');
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", "200");
+            circle.setAttribute("cy", "200");
+            circle.setAttribute("r", 120 + (layers * 12));
+            circle.setAttribute("fill", "none");
+            circle.setAttribute("stroke", "#8d6e63");
+            circle.setAttribute("stroke-width", "0.5");
+            g.appendChild(circle);
+        }
+    }
+    function clearLayers() {
+        document.getElementById('dynamic-layers').innerHTML = "";
+        layers = 0;
+    }
+
+    // --- 3. 廣播劇邏輯 ---
+    const dramaScript = [
+        "萬松：（低沉且有磁性的聲音）各位同學，在匆匆忙忙的現代生活裡...",
+        "你是否也學習元朝耶律楚材，從從容容、遊刃有餘？",
+        "第一則：世尊陞座。文殊白槌云：諦觀法王法。法王法如是。"
+    ];
+    let dramaIdx = 0;
+    function playDrama() {
+        if(dramaIdx < dramaScript.length) {
+            const txt = dramaScript[dramaIdx];
+            document.getElementById('drama-text').innerText = txt;
+            speak(txt);
+            dramaIdx++;
+            // 語音結束後自動下一句的簡單模擬 (實際建議用 onend 事件)
+        } else {
+            dramaIdx = 0;
+            document.getElementById('drama-text').innerText = "播放完畢。";
+        }
+    }
+    function stopDrama() {
+        speechSynthesis.cancel();
+        dramaIdx = 0;
+    }
+
+    // 通用語音工具
+    function speak(text) {
+        speechSynthesis.cancel(); // 先停止之前的語音
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = 'zh-TW';
+        msg.rate = 0.9;
+        speechSynthesis.speak(msg);
+    }
+</script>
+
+</body>
+</html>
