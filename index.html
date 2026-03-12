@@ -6,6 +6,70 @@
     <title>吾會念佛 - 每日修持日誌</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
+
+        /* 修正 1：基礎排版，確保手機與電腦皆能正常閱讀 */
+        body {
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            line-height: 1.8;
+            background-color: #f8f7f2;
+            color: #333;
+            margin: 0;
+            padding: 15px;
+        }
+
+        /* 修正 2：日誌容器，解決功能塊互相干擾的問題 */
+        .diary-entry {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px auto;
+            max-width: 750px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 6px solid #8d6e63; /* 禪意棕色側條 */
+        }
+
+        h1, h2 { color: #5d4037; margin-bottom: 10px; }
+        .date { color: #999; font-size: 0.9rem; }
+
+        /* 修正 3：元件縮放，確保 SVG 與 Canvas 在不同螢幕上顯示正確 */
+        svg, canvas {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 15px auto;
+            border: 1px solid #f0f0f0;
+        }
+
+        /* 按鈕樣式一致化 */
+        button {
+            background-color: #8d6e63;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+            transition: 0.2s;
+        }
+
+        button:hover { background-color: #5d4037; }
+
+        .counter {
+            font-size: 2.5rem;
+            text-align: center;
+            color: #d32f2f;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .text-block {
+            background: #fffdf9;
+            padding: 15px;
+            border-radius: 5px;
+            font-style: italic;
+            border: 1px dashed #d3af37;
+        }
         
         :root {
             --primary-brown: #5d4037;
