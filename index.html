@@ -7,11 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
 
-        /* 修正 1：基礎排版，確保手機與電腦皆能正常閱讀 */
+        /* 1. 樣式修正：解決區塊擠壓與手機跑版 */
         body {
-            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
-            line-height: 1.8;
-            background-color: #f8f7f2;
+            font-family: "Microsoft JhengHei", sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
             color: #333;
             margin: 0;
             padding: 15px;
@@ -40,17 +40,22 @@
             border: 1px solid #f0f0f0;
         }
 
-        /* 按鈕樣式一致化 */
-        button {
-            background-color: #8d6e63;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin: 5px;
-            transition: 0.2s;
+        /* 3. 按鈕修正：加大觸控範圍 */
+        button:active { background-color: #5d4037; }
+
+        .counter-text {
+            font-size: 3rem;
+            text-align: center;
+            color: #d32f2f;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .script-box {
+            background: #fffcf0;
+            padding: 15px;
+            border-left: 4px solid #d3af37;
+            margin-top: 10px;
         }
 
         button:hover { background-color: #5d4037; }
@@ -242,13 +247,13 @@ canvas, svg, img {
             color: #888;
         }
 
-        /* SVG 圖形自適應 */
+/* 2. SVG 修正：確保法界圖完整顯示 */
         svg {
-            width: 100%;
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
             height: auto;
-            max-height: 400px;
-            background: white;
-            border-radius: 8px;
+            background: #fdfdfd;
         }
 
 canvas, svg, iframe {
