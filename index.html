@@ -3,30 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>吾會念佛 心情日誌</title>
+    <title>吾會念佛 - 每日修持日誌</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* 基礎樣式修正：確保背景與字體清晰 */
-        body {
-            font-family: "Microsoft JhengHei", sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 20px;
+        
+        :root {
+            --primary-brown: #5d4037;
+            --accent-gold: #d3af37;
+            --bg-gray: #f8f9fa;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.08);
         }
 
-        /* 核心修正：將每個日誌（日期）設為獨立區塊，避免功能互相干擾 */
-        section {
-            background: #fff;
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+/* 核心修正：將每個日誌（日期）設為獨立區塊，避免功能互相干擾 */
+        /* 修正：確保每個日期區塊具備獨立性與背景色 */
+section {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 30px auto; /* 增加間距 */
+    max-width: 800px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
 
+/* 修正：圖片與 SVG 縮放問題 */
+canvas, svg, img {
+    max-width: 100%;
+    height: auto;
+}
         h1, h2 {
             color: #5d4037;
             border-bottom: 2px solid #d3af37;
@@ -70,102 +74,978 @@
             border-left: 5px solid #d3af37;
             margin-top: 15px;
         }
+        
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-brown), #3e2723);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* 日誌卡片樣式 */
+        .diary-entry {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 50px;
+            box-shadow: var(--card-shadow);
+            border-top: 6px solid var(--accent-gold);
+            position: relative;
+        }
+
+        .date-tag {
+            display: inline-block;
+            background: var(--primary-brown);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-family: 'Noto Serif TC', serif;
+            margin-top: 0;
+            color: var(--primary-brown);
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
+
+        /* 功能區域內部樣式 */
+        .app-container {
+            background: #fffaf0;
+            border: 1px solid #f0e6d2;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            min-height: 44px;
+            padding: 10px 15px;
+            margin: 5px;
+        }
+
+        .btn-main { background: var(--primary-brown); color: white; }
+        .btn-main:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-outline { background: white; border: 1px solid var(--primary-brown); color: var(--primary-brown); }
+
+        .display-screen {
+            font-size: 2.5rem;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Courier New', Courier, monospace;
+            color: #d32f2f;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        /* SVG 圖形自適應 */
+        svg {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            background: white;
+            border-radius: 8px;
+        }
+
+canvas, svg, iframe {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+        
+    </style>
+    <style>
+        /* 基礎樣式設定 */
+        body {
+            font-family: "Microsoft JhengHei", "Apple LiGothic Medium", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        header.main-header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 30px;
+        }
+
+        /* 日誌容器 */
+        #diary-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* 日誌卡片基本樣式 */
+        .diary-entry {
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .diary-entry:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 日期與星期樣式 */
+        .entry-meta {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* 抬頭樣式 */
+        .entry-title {
+            margin: 0 0 15px 0;
+            font-size: 1.5em;
+            color: #2c3e50;
+        }
+
+        /* 內容樣式 */
+        .entry-content {
+            font-size: 1.1em;
+            white-space: pre-wrap; /* 保留換行 */
+        }
+
+        /* --- 星期背景顏色定義 --- */
+        /* 週一 (淺藍) */
+        .diary-entry[data-day="1"] { background-color: #e3f2fd; border-left: 8px solid #2196f3; }
+        /* 週二 (淺紅) */
+        .diary-entry[data-day="2"] { background-color: #ffebee; border-left: 8px solid #f44336; }
+        /* 週三 (淺綠) */
+        .diary-entry[data-day="3"] { background-color: #e8f5e9; border-left: 8px solid #4caf50; }
+        /* 週四 (淺黃) */
+        .diary-entry[data-day="4"] { background-color: #fffde7; border-left: 8px solid #fbc02d; }
+        /* 週五 (淺紫) */
+        .diary-entry[data-day="5"] { background-color: #f3e5f5; border-left: 8px solid #9c27b0; }
+        /* 週六 (淺橘) */
+        .diary-entry[data-day="6"] { background-color: #fff3e0; border-left: 8px solid #ff9800; }
+        /* 週日 (淡灰藍) */
+        .diary-entry[data-day="7"] { background-color: #eceff1; border-left: 8px solid #607d8b; }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.8em;
+            color: #aaa;
+        }
     </style>
 </head>
 <body>
 
-<header style="text-align: center; margin-bottom: 40px;">
+<header>
     <h1>吾會念佛 心情日誌</h1>
+    <p>修行於當下，紀錄日日點滴</p>
 </header>
 
-<section>
-    <small>2026年3月15日 (星期日)</small>
-    <h2>五會念佛 十念法</h2>
-    <p>每日晨朝修持，保持正念。</p>
-    
-    <div class="count-display" id="nianfo-count">0</div>
-    <div style="text-align: center;">
-        <button onclick="doNianfo()">念佛 (語音)</button>
-        <button onclick="resetNianfo()" style="background-color: #999;">重設</button>
-    </div>
-</section>
+<div class="container">
 
-<section>
-    <small>2026年3月13日 (星期五)</small>
+    <article class="diary-entry" data-day="7">
+            <div class="entry-meta">2026年3月15日 (星期日)</div>
+            <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
+            <div class="entry-content">
+                。
+            </div>
+    </article>
+    
+    <article class="diary-entry" data-day="6">
+            <div class="entry-meta">2026年3月14日 (星期六)</div>
+            <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
+            <div class="entry-content">
+                。
+            </div>
+    </article>
+    
+    <article class="diary-entry" data-day="5">
+            <div class="entry-meta">2026年3月13日 (星期五)</div>
+            <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
+            <div class="entry-content">
+                。
+            </div>
+    </article>
+    
+    <article class="diary-entry" data-day="4">
+            <div class="entry-meta">2026年3月12日 (星期四)</div>
+            <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
+            <div class="entry-content">
+                華嚴-妄盡還源觀（法界圓明-精確對應版）
+            </div>
+            <html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>華嚴-妄盡還源觀（法界圓明-精確對應版）</title>
+    <style>
+        body { font-family: "Microsoft JhengHei", sans-serif; display: flex; flex-direction: row; margin: 20px; background: #2c2c2c; color: #e0e0e0; }
+        #controls { width: 420px; padding: 20px; background: #3d3d3d; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); overflow-y: auto; max-height: 95vh; border: 1px solid #555; }
+        #canvas-container { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #1a1a1a; margin-left: 20px; border-radius: 8px; position: relative; overflow: auto; }
+        svg { background: #1a1a1a; border-radius: 50%; box-shadow: 0 0 50px rgba(255, 102, 0, 0.2); flex-shrink: 0; }
+        .layer-block { border-bottom: 2px solid #5d2e0a; padding: 15px 0; background: #4a4a4a; margin-bottom: 10px; padding-left: 10px; border-radius: 4px; }
+        label { font-size: 13px; font-weight: bold; color: #ffcc00; display: block; margin-top: 8px; }
+        input, textarea { width: 95%; margin-top: 5px; box-sizing: border-box; padding: 5px; border: 1px solid #666; background: #2c2c2c; color: #fff; border-radius: 3px; }
+        button { margin-top: 10px; cursor: pointer; padding: 10px; width: 100%; font-weight: bold; border-radius: 4px; border: none; transition: 0.3s; }
+        button:hover { opacity: 0.8;min-height: 44px; padding: 10px 15px;margin: 5px; }
+        .tooltip { position: fixed; background: rgba(30, 15, 0, 0.95); color: #fff; padding: 15px; border-radius: 8px; pointer-events: none; display: none; font-size: 14px; max-width: 350px; z-index: 1000; line-height: 1.6; border: 1px solid #ffcc00; box-shadow: 0 0 20px rgba(0,0,0,0.6); }
+        h2 { color: #ffcc00; border-left: 5px solid #ff6600; padding-left: 10px; font-size: 1.2em; }
+        .hint { font-size: 11px; color: #bbb; font-style: italic; }
+    </style>
+</head>
+<body>
+
+<div id="controls">
     <h2>華嚴-妄盡還源觀 (法界圓明)</h2>
-    <p>觀想圓明，層層透徹。</p>
+    <div id="layers-config"></div>
+    <button onclick="addLayer()" style="background-color: #5d2e0a; color: white;">＋ 新增一圈層級</button>
+    <button onclick="renderCompass()" style="background-color: #e65100; color: white; margin-top: 20px; font-size: 1.1em;">重繪法界圖相</button>
+</div>
+
+<div id="canvas-container">
+    <div class="tooltip" id="tooltip"></div>
+    <svg id="compass" width="900" height="900" viewBox="0 0 900 900"></svg>
+</div>
+
+<script>
+
+/* 加入這段確保區塊獨立 */
+.diary-item {
+    border: 1px solid #ddd;
+    margin: 20px 10px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #fff;
+    clear: both; /* 防止浮動元素干擾 */
+}
     
-    <svg viewBox="0 0 400 400" id="huayan-svg">
-        <circle cx="200" cy="200" r="150" fill="none" stroke="#d3af37" stroke-width="2" />
-        <circle cx="200" cy="200" r="100" fill="none" stroke="#8d6e63" stroke-dasharray="4" />
-        <text x="200" y="205" text-anchor="middle" font-size="20" fill="#5d4037">法界圓明</text>
-    </svg>
-    <div style="text-align: center;">
-        <button onclick="redrawHuayan()">重繪圖相</button>
-    </div>
-</section>
+    // 資料結構優化：content 與 note 均支援逗號分隔
+    let layers = [
+        { count: 1, content: "體-法界圓明體", note: "自性清淨圓明，體無增減。" },
+        { count: 2, content: "海印森羅,法界圓明", note: "海印森羅：妄盡心澄，萬象齊現。,法界圓明：理智不二，照體獨立。" }, 
+        { count: 3, content: "普周法界遍,出生無盡遍,含容空有遍", note: "一塵現大海,一念生萬法,心包太虛" },
+        { count: 4, content: "隨緣妙用德,威儀住持德,柔和質直德,普代眾生德", note: "隨機赴感,規範世間,心平氣直,悲願廣大" },
+        { count: 5, content: "照法清虛止,觀人寂帕止,性起繁興止,定光顯現止,事理玄通止", note: "離緣止,絕欲止,法爾止,無念止,非相止" },
+        { count: 6, content: "真空觀,妙有觀,圓融觀,眾緣觀,鏡像觀,帝網觀", note: "攝境歸心,從心現境,隱顯對待,智身影現,多身入一,主伴互現" }
+    ];
 
-<section>
-    <small>2026年3月10日 (星期二)</small>
-    <h2>從容錄 E世代廣播劇</h2>
-    <div class="drama-box" id="drama-content">
-        萬松：（低沉且有磁性的聲音）各位同學，在匆匆忙忙的現代生活裡，你是否也學習元朝耶律楚材，從從容容、遊刃有餘？
-    </div>
-    <div style="text-align: center; margin-top: 15px;">
-        <button onclick="startDrama()">播放廣播劇</button>
-        <button onclick="stopSpeech()" style="background-color: #f44336;">停止語音</button>
-    </div>
-</section>
+    function addLayer() {
+        layers.push({ count: 8, content: "新格1,新格2", note: "備註1,備註2" });
+        updateUI();
+    }
 
-<footer style="text-align: center; padding: 20px; color: #888;">
-    © 2026 吾會念佛 版權所有
+    function updateUI() {
+        const container = document.getElementById('layers-config');
+        container.innerHTML = '';
+        layers.forEach((layer, idx) => {
+            container.innerHTML += `
+                <div class="layer-block">
+                    <label>第 ${idx + 1} 層 - 格數:</label>
+                    <input type="number" value="${layer.count}" onchange="layers[${idx}].count=this.value">
+                    <label>內容 <span class="hint">(逗號分隔)</span>:</label>
+                    <textarea rows="2" onchange="layers[${idx}].content=this.value">${layer.content}</textarea>
+                    <label>各格備註 <span class="hint">(逗號分隔，對應各格)</span>:</label>
+                    <textarea rows="2" onchange="layers[${idx}].note=this.value">${layer.note}</textarea>
+                </div>`;
+        });
+    }
+
+    function renderCompass() {
+        const svg = document.getElementById('compass');
+        svg.innerHTML = ''; 
+        const cx = 450, cy = 450, baseRadius = 60;
+        const layerWidth = 85; 
+
+        const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+        defs.innerHTML = `
+            <radialGradient id="sunsetGradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" style="stop-color:#fffce6" />
+                <stop offset="40%" style="stop-color:#ffeb3b" />
+                <stop offset="80%" style="stop-color:#ff5722" />
+                <stop offset="100%" style="stop-color:#bf360c" />
+            </radialGradient>
+            <filter id="glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        `;
+        svg.appendChild(defs);
+
+        // 中心圓 (第一層的「體」)
+        const centerG = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        const centerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        centerCircle.setAttribute("cx", cx);
+        centerCircle.setAttribute("cy", cy);
+        centerCircle.setAttribute("r", baseRadius);
+        centerCircle.setAttribute("fill", "url(#sunsetGradient)");
+        centerCircle.setAttribute("filter", "url(#glow)");
+        centerCircle.setAttribute("stroke", "#ffcc00");
+        centerCircle.setAttribute("stroke-width", "2");
+        
+        // 第一層 Tooltip 處理
+        const firstLayerNote = layers[0].note.split(',')[0]; 
+        centerCircle.addEventListener('mousemove', (e) => showTooltip(e, `<b>${layers[0].content.split(',')[0]}</b><hr>${firstLayerNote}`));
+        centerCircle.addEventListener('mouseout', hideTooltip);
+        
+        centerG.appendChild(centerCircle);
+        svg.appendChild(centerG);
+
+        const duskColors = [
+            ["#4a3a3a", "#3d2f2f"], ["#3d314a", "#33293d"], ["#2e2e3e", "#252533"], ["#252525", "#1c1c1c"]
+        ];
+
+        // 從第二層開始繪製 (索引 1 開始)
+        layers.slice(1).forEach((layer, sIdx) => {
+            const lIdx = sIdx + 1; // 還原真實層級索引
+            const innerR = baseRadius + (sIdx * layerWidth);
+            const outerR = innerR + layerWidth;
+            
+            const items = layer.content.split(',');
+            const notes = layer.note.split(','); // 切分備註
+            
+            const count = parseInt(layer.count);
+            const angleStep = 360 / count;
+            const colorSet = duskColors[Math.min(sIdx, duskColors.length - 1)];
+
+            for (let i = 0; i < count; i++) {
+                const startAngle = i * angleStep - 90;
+                const endAngle = (i + 1) * angleStep - 90;
+                const pathData = describeArc(cx, cy, innerR, outerR, startAngle, endAngle);
+                
+                const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                
+                path.setAttribute("d", pathData);
+                path.setAttribute("fill", i % 2 === 0 ? colorSet[0] : colorSet[1]);
+                path.setAttribute("stroke", "#555");
+                path.setAttribute("stroke-width", "0.5");
+
+                // --- 核心邏輯：動態抓取該格的備註 ---
+                const itemText = items[i] ? items[i].trim() : (items[0] || "未定義");
+                // 如果該序號沒有對應備註，就抓該層第一個備註
+                const itemNote = notes[i] ? notes[i].trim() : (notes[0] || "無備註");
+
+                path.addEventListener('mouseover', () => path.setAttribute("fill", "#6d4c41"));
+                path.addEventListener('mouseout', () => path.setAttribute("fill", i % 2 === 0 ? colorSet[0] : colorSet[1]));
+                path.addEventListener('mousemove', (e) => showTooltip(e, `<b>${itemText}</b><hr>${itemNote}`));
+                path.addEventListener('mouseout', hideTooltip);
+
+                // 文字繪製 (略微簡化確保性能)
+                const textAngle = startAngle + (angleStep / 2);
+                const textR = innerR + (layerWidth / 2);
+                const tx = cx + textR * Math.cos(textAngle * Math.PI / 180);
+                const ty = cy + textR * Math.sin(textAngle * Math.PI / 180);
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", tx); text.setAttribute("y", ty);
+                text.setAttribute("text-anchor", "middle"); text.setAttribute("dominant-baseline", "middle");
+                text.setAttribute("fill", "#ffd54f");
+                let fs = itemText.length > 8 ? 10 : 13;
+                text.setAttribute("font-size", `${fs}px`);
+                let rot = textAngle + 90;
+                if (rot > 90 && rot < 270) rot -= 180;
+                text.setAttribute("transform", `rotate(${rot}, ${tx}, ${ty})`);
+                text.textContent = itemText;
+
+                g.appendChild(path); g.appendChild(text); svg.appendChild(g);
+            }
+        });
+    }
+
+    function describeArc(x, y, innerR, outerR, startAngle, endAngle) {
+        const startRad = startAngle * Math.PI / 180;
+        const endRad = endAngle * Math.PI / 180;
+        const x1 = x + innerR * Math.cos(startRad), y1 = y + innerR * Math.sin(startRad);
+        const x2 = x + outerR * Math.cos(startRad), y2 = y + outerR * Math.sin(startRad);
+        const x3 = x + outerR * Math.cos(endRad),   y3 = y + outerR * Math.sin(endRad);
+        const x4 = x + innerR * Math.cos(endRad),   y4 = y + innerR * Math.sin(endRad);
+        const largeArc = endAngle - startAngle <= 180 ? "0" : "1";
+        return `M ${x1} ${y1} L ${x2} ${y2} A ${outerR} ${outerR} 0 ${largeArc} 1 ${x3} ${y3} L ${x4} ${y4} A ${innerR} ${innerR} 0 ${largeArc} 0 ${x1} ${y1} Z`;
+    }
+
+    function showTooltip(evt, text) {
+        const tooltip = document.getElementById('tooltip');
+        tooltip.style.display = 'block';
+        tooltip.innerHTML = text;
+        tooltip.style.left = (evt.clientX + 20) + 'px';
+        tooltip.style.top = (evt.clientY + 20) + 'px';
+    }
+    function hideTooltip() { document.getElementById('tooltip').style.display = 'none'; }
+
+    updateUI();
+    renderCompass();
+</script>
+</body>
+</html>
+            </div>
+        </div>
+    </article>
+    
+<article class="diary-entry" data-day="3">
+            <div class="entry-meta">2026年3月11日 (星期三)</div>
+            <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
+            <div class="entry-content">
+                。
+            </div>
+        </article>
+
+        
+   <article class="diary-entry" data-day="2">
+            <div class="entry-meta">2026年3月10日 (星期二)</div>
+            <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
+            <div class="entry-content">
+                從容錄 E世代廣播劇
+            </div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>從容錄 E世代廣播劇</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8b4513;
+            --bg-color: #f7f3ee;
+            --paper-white: #ffffff;
+            --text-dark: #2c3e50;
+            --text-gray: #7f8c8d;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            font-family: 'Noto Serif TC', serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 錄音室情境容器 */
+        .studio-container {
+            max-width: 850px;
+            width: 100%;
+            background: var(--paper-white);
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid #e0dcd5;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .studio-header {
+            text-align: center;
+            border-bottom: 1px double var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 2em;
+            letter-spacing: 4px;
+        }
+
+        /* 計數器區塊 */
+        .counter-box {
+            background: #fdfaf6;
+            border: 1px solid #eee;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .count-display {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .controls button {
+            font-family: 'Noto Serif TC', serif;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: 0.3s;
+            min-height: 44px;
+            padding: 10px 15px;
+            margin: 5px;
+        }
+
+        button:hover { background: #a0522d; }
+        button.stop { background: #7f8c8d; }
+
+        /* 公案內容區 */
+        .gong-an {
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+        }
+
+        .role-name {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        .commentary {
+            color: var(--text-gray);
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .song-verse {
+            font-size: 1.4em;
+            text-align: center;
+            margin: 40px 0;
+            color: #1a1a1a;
+            letter-spacing: 3px;
+            border-left: 3px solid var(--primary-color);
+            border-right: 3px solid var(--primary-color);
+            padding: 0 20px;
+        }
+
+        /* 背景音樂控制按鈕 */
+        .audio-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.8);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .input-group {
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+
+        textarea {
+            width: 100%;
+            font-family: 'Noto Serif TC', serif;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="studio-container">
+    <div class="studio-header">
+        <h1>從容錄 E世代廣播劇</h1>
+        <p>萬松禪師 ＆ 耶律楚材 ＆ 天童禪師</p>
+    </div>
+
+    <div class="counter-box">
+        <div class="count-display" id="count">0</div>
+        <div class="controls">
+            <button onclick="startDrama()">開始廣播劇</button>
+            <button class="stop" onclick="stopLoop()">停止</button>
+            <button onclick="changeCount(1)">+1</button>
+            <button onclick="resetCount()">重設</button>
+        </div>
+
+        <div class="input-group">
+            <label>廣播劇 文字（TTS內容）：</label><br>
+            <textarea id="tts-text" rows="3">一段真風見也麼。綿綿化母理機梭。織成古錦含春象。無柰東君漏泄何。</textarea>
+        </div>
+    </div>
+
+    <div class="gong-an">
+        <p class="commentary">【場景：一間充滿禪意的廣播錄音室，背景有淡淡的流水聲與煮水的沸騰聲。】</p>
+        
+        <p><span class="role-name">萬松：</span>（低沉且有磁性的聲音）各位同學，在匆匆忙忙的現代生活裡，你是否也學學元朝耶律楚材（湛然居士），從從容容、遊刃有餘？歡迎跟我一起來學習《從容錄》。</p>
+
+        <p><span class="role-name">第一則：世尊陞座</span></p>
+        <p><strong>【舉】</strong>世尊一日陞座<span class="commentary">(今日不著便)</span>。文殊白槌云：諦觀法王法。法王法如是<span class="commentary">(知佗是何心行)</span>。世尊便下座<span class="commentary">(別日再商量)</span>。</p>
+
+        <p><span class="role-name">萬松評唱：</span>諸人未到法堂，萬松未出方丈，向那時薦得，已是落三落四了也……且救得一半，那一半分付天童。</p>
+
+        <div class="song-verse">
+            一段真風見也麼<br>
+            綿綿化母理機梭<br>
+            織成古錦含春象<br>
+            無柰東君漏泄何
+        </div>
+
+        <p style="text-align: right; font-size: 0.8em; color: var(--text-gray);">—— 慇懃為解丁香結，放出枝頭自在春。</p>
+    </div>
+</div>
+
+<div class="audio-control">
+    <button onclick="toggleMusic()" id="music-btn">🎵 播放禪樂</button>
+</div>
+
+<audio id="bg-music" loop>
+    <source src="1.fong.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    let dramaCount = 0;
+    let isPlaying = false;
+    let ttsInterval;
+
+    const countDisplay = document.getElementById('count');
+    const ttsText = document.getElementById('tts-text');
+    const bgMusic = document.getElementById('bg-music');
+
+    function changeCount(val) {
+        count += val;
+        countDisplay.innerText = count;
+    }
+
+    function resetCount() {
+        count = 0;
+        countDisplay.innerText = count;
+    }
+
+    function toggleMusic() {
+        if (bgMusic.paused) {
+            bgMusic.play();
+            document.getElementById('music-btn').innerText = "⏸ 暫停音樂";
+        } else {
+            bgMusic.pause();
+            document.getElementById('music-btn').innerText = "🎵 播放禪樂";
+        }
+    }
+
+    function speak() {
+        const text = ttsText.value;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-TW';
+        utterance.rate = 0.8; // 設定較慢的語速，增加從容感
+        utterance.pitch = 0.9; // 降低一點音調，模仿磁性聲音
+        
+        utterance.onend = () => {
+            if (isPlaying) {
+                changeCount(1);
+                setTimeout(speak, 1000); // 停頓一秒後繼續下一遍
+            }
+        };
+        
+        window.speechSynthesis.speak(utterance);
+    }
+
+    
+// 修正後的廣播劇功能
+function startDrama() {
+    window.speechSynthesis.cancel();
+    let dramaContent = document.querySelector('.drama-content')?.innerText;
+    if(dramaContent) {
+        let msg = new SpeechSynthesisUtterance(dramaContent);
+        msg.lang = 'zh-TW';
+        window.speechSynthesis.speak(msg);
+    }
+}
+</script>
+
+</body>
+</html>
+        </div>
+    </article>
+    
+    <article class="diary-entry" data-day="1">
+            <div class="entry-meta">2026年3月9日 (星期一)</div>
+            <h2 class="entry-title">離開當下的當下 學習紀錄</h2>
+            <div class="entry-content">
+                五會念佛 十念法
+            </div>
+            <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title> 每日晨朝十念法 提醒 念佛機(五會念佛 十念法） </title> </title>
+  <style>
+    body { font-family: Arial, "Noto Sans TC", sans-serif; padding:20px; max-width:600px; margin:auto; }
+    h1 { text-align:center; }
+    .count { font-size:48px; text-align:center; margin:20px 0; }
+    .controls { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+    button, input[type=number], select { padding:8px 12px; font-size:16px; }
+    label { display:block; margin-top:10px; text-align:center; }
+    .status { text-align:center; margin-top:10px; color:green; }
+  </style>
+</head>
+<body>
+  <h1>五會念佛 十念法</h1>
+
+  <!-- 將 chant.mp3 放在相同資料夾，或修改 src 指向網路音檔 -->
+  <audio id="chant" src="chant.mp4" preload="auto"></audio>
+
+  <div class="count" id="counter">次數: 0</div>
+
+  <div class="controls">
+    <button onclick="startNianfo()">念佛機開始</button>
+    <button id="stopBtn">停止</button>
+    <button id="incBtn">+1</button>
+    <button id="decBtn">-1</button>
+    <button id="resetBtn">重設</button>
+  </div>
+
+  <label>
+    每次播放增加:
+    <input id="perPlay" type="number" value="1" min="1" style="width:80px" />
+  </label>
+
+  <label>
+    自動重複播放：
+    <select id="loopSelect">
+      <option value="off">關</option>
+      <option value="on" selected>開</option>
+    </select>
+  </label>
+
+  <label>
+    使用語音 (TTS) 念佛名：
+    <select id="ttsSelect">
+      <option value="off">關</option>
+      <option value="on">開</option>
+    </select>
+  </label>
+
+  <label>
+    念佛文字：
+    <input id="phrase" type="text" value="阿彌陀佛3 阿彌陀佛3  阿彌陀佛4" style="width:60%" />
+  </label>
+
+  <label>
+    每次 TTS 念幾句：
+    <input id="ttsCount" type="number" value="1" min="1" style="width:80px" />
+  </label>
+
+  <div class="status" id="status">準備中</div>
+
+  <script>
+    const chant = document.getElementById('chant');
+    const counterEl = document.getElementById('counter');
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const incBtn = document.getElementById('incBtn');
+    const decBtn = document.getElementById('decBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const perPlay = document.getElementById('perPlay');
+    const loopSelect = document.getElementById('loopSelect');
+    const ttsSelect = document.getElementById('ttsSelect');
+    const phrase = document.getElementById('phrase');
+    const ttsCount = document.getElementById('ttsCount');
+    const status = document.getElementById('status');
+
+    let nianfoCount = 0;
+    let playing = false;
+
+    function render() {
+      counterEl.textContent = `次數: ${count}`;
+    }
+
+ // 修正後的念佛功能
+function startNianfo() {
+    window.speechSynthesis.cancel(); // 1. 先停止之前的聲音
+    let text = document.getElementById('nianfoText')?.innerText || "南無阿彌陀佛";
+    let msg = new SpeechSynthesisUtterance(text);
+    msg.lang = 'zh-TW';
+    window.speechSynthesis.speak(msg); // 2. 播放新聲音
+    
+    // 更新計數 (確保 id 正確)
+    let countEl = document.getElementById('count');
+    if(countEl) countEl.innerText = parseInt(countEl.innerText) + 1;
+}
+        
+      playing = true;
+      status.textContent = '播放中';
+      status.style.color = 'green';
+      // 如果 TTS 開啟，念一次或多次文字（可選）
+      if (ttsSelect.value === 'on') {
+        speakPhrase(parseInt(ttsCount.value) || 1);
+      }
+      chant.play().catch(e => {
+        // 自動播放可能被瀏覽器阻擋，提示使用者互動
+        status.textContent = '瀏覽器可能阻擋自動播放，請按任一按鈕以授權播放';
+        status.style.color = 'orange';
+      });
+    }
+
+    function stopPlayback() {
+      playing = false;
+      chant.pause();
+      chant.currentTime = 0;
+      status.textContent = '已停止';
+      status.style.color = 'gray';
+    }
+
+    chant.addEventListener('ended', () => {
+      // 每次音檔結束時增加次數
+      const add = parseInt(perPlay.value) || 1;
+      count += add;
+      render();
+      if (loopSelect.value === 'on' && playing) {
+        // 如果 TTS 開啟在每次結束也念，可在這裡加入
+        if (ttsSelect.value === 'on') {
+          speakPhrase(parseInt(ttsCount.value) || 1);
+        }
+        // 重播
+        chant.currentTime = 0;
+        chant.play().catch(e => {
+          status.textContent = '播放錯誤: ' + e;
+          status.style.color = 'red';
+        });
+      } else {
+        playing = false;
+        status.textContent = '播放結束';
+        status.style.color = 'gray';
+      }
+    });
+
+    function speakPhrase(times) {
+      if (!('speechSynthesis' in window)) return;
+      const synth = window.speechSynthesis;
+      for (let i = 0; i < times; i++) {
+        const u = new SpeechSynthesisUtterance(phrase.value || '南無阿彌陀佛');
+        // 可調語言與語速
+        u.lang = 'zh-TW';
+        u.rate = 0.9;
+        synth.speak(u);
+      }
+    }
+
+    startBtn.addEventListener('click', () => {
+      startPlayback();
+    });
+    stopBtn.addEventListener('click', () => {
+      stopPlayback();
+    });
+    incBtn.addEventListener('click', () => { count += 1; render(); });
+    decBtn.addEventListener('click', () => { if (count>0) count -= 1; render(); });
+    resetBtn.addEventListener('click', () => { count = 0; render(); });
+
+    // 初始化顯示
+    render();
+    status.textContent = '準備就緒，請放 chant.mp3 並按「開始」';
+    status.style.color = 'black';
+  </script>
+</body>
+</html>
+
+</div>
+
+<footer>
+    <p>© 2026 吾會念佛 版權所有</p>
 </footer>
 
 <script>
-    // --- 修正 1: 全域語音停止工具 (解決聲音疊加問題) ---
-    function stopSpeech() {
-        window.speechSynthesis.cancel();
+    // --- 1. 念佛機邏輯 ---
+    let nianfoCount = 0;
+    function nianfo(val) {
+        nianfoCount += val;
+        document.getElementById('count-display').innerText = nianfoCount;
+        if(document.getElementById('tts-toggle').checked) {
+            speak("南無阿彌陀佛");
+        }
+    }
+    function resetCount() {
+        nianfoCount = 0;
+        document.getElementById('count-display').innerText = 0;
     }
 
-    // --- 修正 2: 念佛機邏輯 (增加 ID 唯一性) ---
-    let nCount = 0;
-    function doNianfo() {
-        stopSpeech(); // 播放前先清除之前的聲音
-        
-        // 更新計數
-        nCount++;
-        document.getElementById('nianfo-count').innerText = nCount;
-        
-        // 執行 TTS
-        const msg = new SpeechSynthesisUtterance("南無阿彌陀佛");
-        msg.lang = 'zh-TW';
-        msg.rate = 0.8;
-        window.speechSynthesis.speak(msg);
+    // --- 2. 華嚴圖邏輯 ---
+    let layers = 0;
+    function addLayer() {
+        if(layers < 5) {
+            layers++;
+            const g = document.getElementById('dynamic-layers');
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", "200");
+            circle.setAttribute("cy", "200");
+            circle.setAttribute("r", 120 + (layers * 12));
+            circle.setAttribute("fill", "none");
+            circle.setAttribute("stroke", "#8d6e63");
+            circle.setAttribute("stroke-width", "0.5");
+            g.appendChild(circle);
+        }
+    }
+    function clearLayers() {
+        document.getElementById('dynamic-layers').innerHTML = "";
+        layers = 0;
     }
 
-    function resetNianfo() {
-        nCount = 0;
-        document.getElementById('nianfo-count').innerText = 0;
-        stopSpeech();
+    // --- 3. 廣播劇邏輯 ---
+    const dramaScript = [
+        "萬松：（低沉且有磁性的聲音）各位同學，在匆匆忙忙的現代生活裡...",
+        "你是否也學習元朝耶律楚材，從從容容、遊刃有餘？",
+        "第一則：世尊陞座。文殊白槌云：諦觀法王法。法王法如是。"
+    ];
+    let dramaIdx = 0;
+    function playDrama() {
+        if(dramaIdx < dramaScript.length) {
+            const txt = dramaScript[dramaIdx];
+            document.getElementById('drama-text').innerText = txt;
+            speak(txt);
+            dramaIdx++;
+            // 語音結束後自動下一句的簡單模擬 (實際建議用 onend 事件)
+        } else {
+            dramaIdx = 0;
+            document.getElementById('drama-text').innerText = "播放完畢。";
+        }
+    }
+    function stopDrama() {
+        speechSynthesis.cancel();
+        dramaIdx = 0;
     }
 
-    // --- 修正 3: 廣播劇邏輯 ---
-    function startDrama() {
-        stopSpeech();
-        const text = document.getElementById('drama-content').innerText;
+    // 通用語音工具
+    function speak(text) {
+        speechSynthesis.cancel(); // 先停止之前的語音
         const msg = new SpeechSynthesisUtterance(text);
         msg.lang = 'zh-TW';
         msg.rate = 0.9;
-        window.speechSynthesis.speak(msg);
-    }
-
-    // --- 修正 4: 華嚴圖簡單交互 ---
-    function redrawHuayan() {
-        const svg = document.getElementById('huayan-svg');
-        // 簡單的動態效果修正
-        svg.style.transition = "transform 0.5s";
-        svg.style.transform = "rotate(360deg)";
-        setTimeout(() => { svg.style.transform = "rotate(0deg)"; }, 500);
+        speechSynthesis.speak(msg);
     }
 </script>
 
