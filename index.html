@@ -1,167 +1,127 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title> 每日晨朝十念法 提醒 念佛機(五會念佛 十念法） </title>（Web）</title>
-  <style>
-    body { font-family: Arial, "Noto Sans TC", sans-serif; padding:20px; max-width:600px; margin:auto; }
-    h1 { text-align:center; }
-    .count { font-size:48px; text-align:center; margin:20px 0; }
-    .controls { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
-    button, input[type=number], select { padding:8px 12px; font-size:16px; }
-    label { display:block; margin-top:10px; text-align:center; }
-    .status { text-align:center; margin-top:10px; color:green; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的心情日誌</title>
+    <style>
+        /* 基礎樣式設定 */
+        body {
+            font-family: "Microsoft JhengHei", "Apple LiGothic Medium", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        header.main-header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 30px;
+        }
+
+        /* 日誌容器 */
+        #diary-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* 日誌卡片基本樣式 */
+        .diary-entry {
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .diary-entry:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 日期與星期樣式 */
+        .entry-meta {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        /* 抬頭樣式 */
+        .entry-title {
+            margin: 0 0 15px 0;
+            font-size: 1.5em;
+            color: #2c3e50;
+        }
+
+        /* 內容樣式 */
+        .entry-content {
+            font-size: 1.1em;
+            white-space: pre-wrap; /* 保留換行 */
+        }
+
+        /* --- 星期背景顏色定義 --- */
+        /* 週一 (淺藍) */
+        .diary-entry[data-day="1"] { background-color: #e3f2fd; border-left: 8px solid #2196f3; }
+        /* 週二 (淺紅) */
+        .diary-entry[data-day="2"] { background-color: #ffebee; border-left: 8px solid #f44336; }
+        /* 週三 (淺綠) */
+        .diary-entry[data-day="3"] { background-color: #e8f5e9; border-left: 8px solid #4caf50; }
+        /* 週四 (淺黃) */
+        .diary-entry[data-day="4"] { background-color: #fffde7; border-left: 8px solid #fbc02d; }
+        /* 週五 (淺紫) */
+        .diary-entry[data-day="5"] { background-color: #f3e5f5; border-left: 8px solid #9c27b0; }
+        /* 週六 (淺橘) */
+        .diary-entry[data-day="6"] { background-color: #fff3e0; border-left: 8px solid #ff9800; }
+        /* 週日 (淡灰藍) */
+        .diary-entry[data-day="7"] { background-color: #eceff1; border-left: 8px solid #607d8b; }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.8em;
+            color: #aaa;
+        }
+    </style>
 </head>
 <body>
-  <h1>五會念佛 十念法</h1>
 
-  <!-- 將 chant.mp3 放在相同資料夾，或修改 src 指向網路音檔 -->
-  <audio id="chant" src="chant.mp4" preload="auto"></audio>
+    <header class="main-header">
+        <h1>我的日常心情日誌</h1>
+        <p>紀錄每一天的點滴與體悟</p>
+    </header>
 
-  <div class="count" id="counter">次數: 0</div>
+    <div id="diary-container">
 
-  <div class="controls">
-    <button id="startBtn">開始</button>
-    <button id="stopBtn">停止</button>
-    <button id="incBtn">+1</button>
-    <button id="decBtn">-1</button>
-    <button id="resetBtn">重設</button>
-  </div>
+        <article class="diary-entry" data-day="4">
+            <div class="entry-meta">2026年3月12日 (星期四)</div>
+            <h2 class="entry-title">今天的心情紀錄</h2>
+            <div class="entry-content">
+                這是一個自動變色的日誌範本。
+                您可以根據當天的星期幾，修改 data-day 的數值，背景顏色就會自動切換。
+                例如：今天是星期四，所以背景呈現淺黃色。
+            </div>
+        </article>
 
-  <label>
-    每次播放增加:
-    <input id="perPlay" type="number" value="1" min="1" style="width:80px" />
-  </label>
+        <article class="diary-entry" data-day="3">
+            <div class="entry-meta">2026年3月11日 (星期三)</div>
+            <h2 class="entry-title">昨天的回顧</h2>
+            <div class="entry-content">
+                這是昨天的內容，因為是星期三（data-day="3"），所以呈現淺綠色。
+                以後只要持續往下面增加區塊，就能形成一個長形的日誌列表。
+            </div>
+        </article>
 
-  <label>
-    自動重複播放：
-    <select id="loopSelect">
-      <option value="off">關</option>
-      <option value="on" selected>開</option>
-    </select>
-  </label>
+    </div>
 
-  <label>
-    使用語音 (TTS) 念佛名：
-    <select id="ttsSelect">
-      <option value="off">關</option>
-      <option value="on">開</option>
-    </select>
-  </label>
+    <footer>
+        &copy; 2026 心情日誌版權所有
+    </footer>
 
-  <label>
-    念佛文字：
-    <input id="phrase" type="text" value="阿彌陀佛3 阿彌陀佛3  阿彌陀佛4" style="width:60%" />
-  </label>
-
-  <label>
-    每次 TTS 念幾句：
-    <input id="ttsCount" type="number" value="1" min="1" style="width:80px" />
-  </label>
-
-  <div class="status" id="status">準備中</div>
-
-  <script>
-    const chant = document.getElementById('chant');
-    const counterEl = document.getElementById('counter');
-    const startBtn = document.getElementById('startBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    const incBtn = document.getElementById('incBtn');
-    const decBtn = document.getElementById('decBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const perPlay = document.getElementById('perPlay');
-    const loopSelect = document.getElementById('loopSelect');
-    const ttsSelect = document.getElementById('ttsSelect');
-    const phrase = document.getElementById('phrase');
-    const ttsCount = document.getElementById('ttsCount');
-    const status = document.getElementById('status');
-
-    let count = 0;
-    let playing = false;
-
-    function render() {
-      counterEl.textContent = `次數: ${count}`;
-    }
-
-    function startPlayback() {
-      if (!chant.src) {
-        status.textContent = '未找到 chant.mp3，請放入同一資料夾或修改 audio src。';
-        status.style.color = 'red';
-        return;
-      }
-      playing = true;
-      status.textContent = '播放中';
-      status.style.color = 'green';
-      // 如果 TTS 開啟，念一次或多次文字（可選）
-      if (ttsSelect.value === 'on') {
-        speakPhrase(parseInt(ttsCount.value) || 1);
-      }
-      chant.play().catch(e => {
-        // 自動播放可能被瀏覽器阻擋，提示使用者互動
-        status.textContent = '瀏覽器可能阻擋自動播放，請按任一按鈕以授權播放';
-        status.style.color = 'orange';
-      });
-    }
-
-    function stopPlayback() {
-      playing = false;
-      chant.pause();
-      chant.currentTime = 0;
-      status.textContent = '已停止';
-      status.style.color = 'gray';
-    }
-
-    chant.addEventListener('ended', () => {
-      // 每次音檔結束時增加次數
-      const add = parseInt(perPlay.value) || 1;
-      count += add;
-      render();
-      if (loopSelect.value === 'on' && playing) {
-        // 如果 TTS 開啟在每次結束也念，可在這裡加入
-        if (ttsSelect.value === 'on') {
-          speakPhrase(parseInt(ttsCount.value) || 1);
-        }
-        // 重播
-        chant.currentTime = 0;
-        chant.play().catch(e => {
-          status.textContent = '播放錯誤: ' + e;
-          status.style.color = 'red';
-        });
-      } else {
-        playing = false;
-        status.textContent = '播放結束';
-        status.style.color = 'gray';
-      }
-    });
-
-    function speakPhrase(times) {
-      if (!('speechSynthesis' in window)) return;
-      const synth = window.speechSynthesis;
-      for (let i = 0; i < times; i++) {
-        const u = new SpeechSynthesisUtterance(phrase.value || '南無阿彌陀佛');
-        // 可調語言與語速
-        u.lang = 'zh-TW';
-        u.rate = 0.9;
-        synth.speak(u);
-      }
-    }
-
-    startBtn.addEventListener('click', () => {
-      startPlayback();
-    });
-    stopBtn.addEventListener('click', () => {
-      stopPlayback();
-    });
-    incBtn.addEventListener('click', () => { count += 1; render(); });
-    decBtn.addEventListener('click', () => { if (count>0) count -= 1; render(); });
-    resetBtn.addEventListener('click', () => { count = 0; render(); });
-
-    // 初始化顯示
-    render();
-    status.textContent = '準備就緒，請放 chant.mp3 並按「開始」';
-    status.style.color = 'black';
-  </script>
 </body>
 </html>
