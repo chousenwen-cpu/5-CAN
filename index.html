@@ -1122,5 +1122,52 @@ canvas, svg, iframe {
     }
 </script>
 
+       <script>
+    // 必要的細項修正邏輯
+    
+    // 1. 強制清空所有語音，解決疊加問題
+    function handleStop() {
+        if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+        }
+    }
+
+    // 2. 念佛邏輯 (確保 ID 對應正確)
+    let nianfoCount = 0;
+    function handleNianfo() {
+        handleStop(); // 先停再播
+        
+        nianfoCount++;
+        const display = document.getElementById('main-count');
+        if(display) display.innerText = nianfoCount;
+
+        const utterance = new SpeechSynthesisUtterance("南無阿彌陀佛");
+        utterance.lang = 'zh-TW';
+        utterance.rate = 0.8;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function handleReset() {
+        nianfoCount = 0;
+        const display = document.getElementById('main-count');
+        if(display) display.innerText = 0;
+        handleStop();
+    }
+
+    // 3. 廣播劇邏輯
+    function handleDrama() {
+        handleStop();
+        const text = document.getElementById('drama-content').innerText;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-TW';
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // 4. 防止頁面重載時 TTS 還在唸
+    window.onbeforeunload = function() {
+        handleStop();
+    };
+</script> 
+
 </body>
 </html>
