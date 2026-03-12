@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吾會念佛 心情日誌</title>
+    <style>
+        /* 基礎樣式修正：確保背景與字體清晰 */
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* 核心修正：將每個日誌（日期）設為獨立區塊，避免功能互相干擾 */
+        section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1, h2 {
+            color: #5d4037;
+            border-bottom: 2px solid #d3af37;
+            padding-bottom: 10px;
+        }
+
+        /* 修正：確保圖片、SVG 與 Canvas 不會超出螢幕範圍 */
+        svg, canvas, img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 15px auto;
+        }
+
+        /* 按鈕樣式標準化 */
+        button {
+            background-color: #8d6e63;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #5d4037;
+        }
+
+        .count-display {
+            font-size: 2em;
+            color: #d32f2f;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .drama-box {
+            background: #fdf6e3;
+            padding: 15px;
+            border-left: 5px solid #d3af37;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<header style="text-align: center; margin-bottom: 40px;">
+    <h1>吾會念佛 心情日誌</h1>
+</header>
+
+<section>
+    <small>2026年3月15日 (星期日)</small>
+    <h2>五會念佛 十念法</h2>
+    <p>每日晨朝修持，保持正念。</p>
+    
+    <div class="count-display" id="nianfo-count">0</div>
+    <div style="text-align: center;">
+        <button onclick="doNianfo()">念佛 (語音)</button>
+        <button onclick="resetNianfo()" style="background-color: #999;">重設</button>
+    </div>
+</section>
+
+<section>
+    <small>2026年3月13日 (星期五)</small>
+    <h2>華嚴-妄盡還源觀 (法界圓明)</h2>
+    <p>觀想圓明，層層透徹。</p>
+    
+    <svg viewBox="0 0 400 400" id="huayan-svg">
+        <circle cx="200" cy="200" r="150" fill="none" stroke="#d3af37" stroke-width="2" />
+        <circle cx="200" cy="200" r="100" fill="none" stroke="#8d6e63" stroke-dasharray="4" />
+        <text x="200" y="205" text-anchor="middle" font-size="20" fill="#5d4037">法界圓明</text>
+    </svg>
+    <div style="text-align: center;">
+        <button onclick="redrawHuayan()">重繪圖相</button>
+    </div>
+</section>
+
+<section>
+    <small>2026年3月10日 (星期二)</small>
+    <h2>從容錄 E世代廣播劇</h2>
+    <div class="drama-box" id="drama-content">
+        萬松：（低沉且有磁性的聲音）各位同學，在匆匆忙忙的現代生活裡，你是否也學習元朝耶律楚材，從從容容、遊刃有餘？
+    </div>
+    <div style="text-align: center; margin-top: 15px;">
+        <button onclick="startDrama()">播放廣播劇</button>
+        <button onclick="stopSpeech()" style="background-color: #f44336;">停止語音</button>
+    </div>
+</section>
+
+<footer style="text-align: center; padding: 20px; color: #888;">
+    © 2026 吾會念佛 版權所有
+</footer>
+
+<script>
+    // --- 修正 1: 全域語音停止工具 (解決聲音疊加問題) ---
+    function stopSpeech() {
+        window.speechSynthesis.cancel();
+    }
+
+    // --- 修正 2: 念佛機邏輯 (增加 ID 唯一性) ---
+    let nCount = 0;
+    function doNianfo() {
+        stopSpeech(); // 播放前先清除之前的聲音
+        
+        // 更新計數
+        nCount++;
+        document.getElementById('nianfo-count').innerText = nCount;
+        
+        // 執行 TTS
+        const msg = new SpeechSynthesisUtterance("南無阿彌陀佛");
+        msg.lang = 'zh-TW';
+        msg.rate = 0.8;
+        window.speechSynthesis.speak(msg);
+    }
+
+    function resetNianfo() {
+        nCount = 0;
+        document.getElementById('nianfo-count').innerText = 0;
+        stopSpeech();
+    }
+
+    // --- 修正 3: 廣播劇邏輯 ---
+    function startDrama() {
+        stopSpeech();
+        const text = document.getElementById('drama-content').innerText;
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.lang = 'zh-TW';
+        msg.rate = 0.9;
+        window.speechSynthesis.speak(msg);
+    }
+
+    // --- 修正 4: 華嚴圖簡單交互 ---
+    function redrawHuayan() {
+        const svg = document.getElementById('huayan-svg');
+        // 簡單的動態效果修正
+        svg.style.transition = "transform 0.5s";
+        svg.style.transform = "rotate(360deg)";
+        setTimeout(() => { svg.style.transform = "rotate(0deg)"; }, 500);
+    }
+</script>
+
+</body>
+</html>
