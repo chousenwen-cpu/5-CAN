@@ -602,10 +602,11 @@ canvas, svg, iframe {
                 從容錄 E世代廣播劇
             </div>
 
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>從容錄 E世代廣播劇</title>
+    <title>5-CAN 念佛機 | 從容錄 E世代廣播劇</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -680,9 +681,6 @@ canvas, svg, iframe {
             cursor: pointer;
             font-size: 1em;
             transition: 0.3s;
-            min-height: 44px;
-            padding: 10px 15px;
-            margin: 5px;
         }
 
         button:hover { background: #a0522d; }
@@ -753,14 +751,14 @@ canvas, svg, iframe {
     <div class="counter-box">
         <div class="count-display" id="count">0</div>
         <div class="controls">
-            <button onclick="startDrama()">開始廣播劇</button>
+            <button onclick="startLoop()">開始念佛</button>
             <button class="stop" onclick="stopLoop()">停止</button>
             <button onclick="changeCount(1)">+1</button>
             <button onclick="resetCount()">重設</button>
         </div>
 
         <div class="input-group">
-            <label>廣播劇 文字（TTS內容）：</label><br>
+            <label>念佛文字（TTS內容）：</label><br>
             <textarea id="tts-text" rows="3">一段真風見也麼。綿綿化母理機梭。織成古錦含春象。無柰東君漏泄何。</textarea>
         </div>
     </div>
@@ -791,11 +789,11 @@ canvas, svg, iframe {
 </div>
 
 <audio id="bg-music" loop>
-    <source src="1.fong.mp3" type="audio/mpeg">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-    let dramaCount = 0;
+    let count = 0;
     let isPlaying = false;
     let ttsInterval;
 
@@ -840,17 +838,18 @@ canvas, svg, iframe {
         window.speechSynthesis.speak(utterance);
     }
 
-    
-// 修正後的廣播劇功能
-function startDrama() {
-    window.speechSynthesis.cancel();
-    let dramaContent = document.querySelector('.drama-content')?.innerText;
-    if(dramaContent) {
-        let msg = new SpeechSynthesisUtterance(dramaContent);
-        msg.lang = 'zh-TW';
-        window.speechSynthesis.speak(msg);
+    function startLoop() {
+        if (isPlaying) return;
+        isPlaying = true;
+        // 第一次啟動時，也自動播放背景音樂（模擬錄音室開始）
+        if (bgMusic.paused) toggleMusic();
+        speak();
     }
-}
+
+    function stopLoop() {
+        isPlaying = false;
+        window.speechSynthesis.cancel();
+    }
 </script>
 
 </body>
